@@ -1,0 +1,12 @@
+<div>
+    <button (click)="changeBackgroundColor()">Change Background Color</button>
+</div>
+
+<div [ngClass]="{'dark-surface-color': isBackgroundColorChanged}">
+    This is the background color changer component. Click the button above to change the background color of the page.
+</div>
+
+<div [style.background-color]="isBackgroundColorChanged ? 'red' : 'blue'">
+    test
+</div>
+
