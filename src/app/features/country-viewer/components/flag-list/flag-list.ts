@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Flag } from '../../../../shared/domain/flag';
 
 @Component({
   selector: 'app-flag-list',
@@ -7,7 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './flag-list.scss',
 })
 export class FlagList {
-  flags = [
+  @Output() flagEventEmitter = new EventEmitter<Flag>();
+  flags: Flag[] = [
     {
       "id": 1,
       "url": "assets/images/flags/greece.svg.png",
@@ -23,5 +25,10 @@ export class FlagList {
       "url": "assets/images/flags/japan.png",
       "alt": "Flag of Greece"
     }
-  ]
+  ];
+
+  selectFlag(flag: Flag) {
+    console.log("flag selected",flag.id);
+    this.flagEventEmitter.emit(flag);
+  }
 }

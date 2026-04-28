@@ -1,8 +1,8 @@
 <div class="all-containers">
     <div class="container">
-        <app-flag-list></app-flag-list>
+        <app-flag-list (flagEventEmitter)="selectFlag($event)"></app-flag-list>
     </div>
     <div class="container">
-        <app-country-details></app-country-details>
+        <app-country-details [selectedFlag]="flagToShow"></app-country-details>
     </div>
 </div>
