@@ -1,2 +1,7 @@
-<p>country-details works!</p>
- <h1>{{selectedFlag?.url}}</h1>
+@if(countryInfo){
+<h1>{{countryInfo.name}}</h1>
+<h1>{{countryInfo.capital}}</h1>
+<h1>{{countryInfo.population}}</h1>    
+} @else {
+    <p>Please select a country from the flags to your left.</p>
+}
