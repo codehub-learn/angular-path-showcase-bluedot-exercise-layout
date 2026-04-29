@@ -1,0 +1,122 @@
+.chaos-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  /* Very subtle, unsettling background pulse */
+  animation: raveBg 2s infinite alternate;
+}
+
+@keyframes raveBg {
+  0% { background-color: #000000; }
+  50% { background-color: #0a0000; }
+  100% { background-color: #00000a; }
+}
+
+.glitch-wrapper {
+  position: relative;
+  z-index: 10;
+}
+
+.glitch {
+  font-size: 15rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  position: relative;
+  color: white;
+  margin: 0;
+  /* Extreme multi-layered shadow to simulate chromatic aberration */
+  text-shadow: 
+    0.05em 0 0 rgba(255, 0, 0, 0.75), 
+    -0.025em -0.05em 0 rgba(0, 255, 0, 0.75), 
+    0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+  animation: glitch-anim 500ms infinite;
+}
+
+@keyframes glitch-anim {
+  0% { text-shadow: 0.05em 0 0 red, -0.05em -0.025em 0 lime, -0.025em 0.05em 0 blue; transform: translate(2px, 0px); }
+  20% { text-shadow: -0.05em -0.025em 0 red, 0.025em 0.025em 0 lime, -0.05em -0.05em 0 blue; transform: translate(-2px, 2px); }
+  40% { text-shadow: 0.025em 0.05em 0 red, 0.05em 0 0 lime, 0 -0.05em 0 blue; transform: translate(2px, -2px); }
+  60% { text-shadow: -0.025em 0 0 red, -0.025em -0.025em 0 lime, -0.025em -0.05em 0 blue; transform: translate(-2px, 0px); }
+  80% { text-shadow: 0.05em 0.05em 0 red, -0.025em 0 0 lime, 0.05em -0.025em 0 blue; transform: translate(2px, 2px); }
+  100% { text-shadow: -0.05em 0 0 red, 0.05em -0.025em 0 lime, -0.025em 0.05em 0 blue; transform: translate(0, 0); }
+}
+
+.panic-text {
+  font-size: 3rem;
+  color: #ff003c;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  z-index: 10;
+  /* Aggressive screen shake applied directly to the text */
+  animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.runaway-btn {
+  position: absolute;
+  padding: 20px 40px;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  background: transparent;
+  border: 4px solid #ff0055;
+  cursor: crosshair;
+  text-transform: uppercase;
+  z-index: 100;
+  transition: top 0.05s ease, left 0.05s ease;
+  box-shadow: 0 0 20px #ff0055, inset 0 0 10px #ff0055;
+  transform: translate(-50%, -50%);
+  
+  &:hover {
+    background: #00ffaa;
+    border-color: #00ffaa;
+    box-shadow: 0 0 50px #00ffaa, inset 0 0 20px #00ffaa;
+    color: #000;
+  }
+}
+
+.falling-debris {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.debris {
+  position: absolute;
+  font-size: 5rem;
+  animation: fall linear infinite;
+}
+
+.d1 { left: 15%; animation-duration: 2s; }
+.d2 { left: 45%; animation-duration: 1.5s; animation-delay: 0.5s; }
+.d3 { left: 85%; animation-duration: 3s; }
+.d4 { left: 60%; animation-duration: 2.2s; animation-delay: 0.2s; }
+.d5 { left: 30%; animation-duration: 1.8s; animation-delay: 0.8s; }
+
+@keyframes fall {
+  0% { top: -10%; transform: rotate(0deg) scale(1); opacity: 1;}
+  100% { top: 110%; transform: rotate(1080deg) scale(2); opacity: 0; }
+}

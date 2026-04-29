@@ -1,0 +1,6 @@
+<button (click)="toggleComponentLifecycle()">
+    {{isComponentLifecycleVisible ? 'Hide' : 'Show'}} lifecycle component
+</button>
+@if(isComponentLifecycleVisible){
+<app-simple-component [name]="'ioannis'"></app-simple-component>
+}

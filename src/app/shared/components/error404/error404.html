@@ -1,0 +1,25 @@
+<div class="chaos-container">
+  <div class="glitch-wrapper">
+    <h1 class="glitch" data-text="404">404</h1>
+  </div>
+
+  <h2 class="panic-text">{{ currentMessage }}</h2>
+
+  <div class="falling-debris">
+    <span class="debris d1">🐈</span>
+    <span class="debris d2">💻</span>
+    <span class="debris d3">🔥</span>
+    <span class="debris d4">💀</span>
+    <span class="debris d5">🛸</span>
+  </div>
+
+  <button
+    class="runaway-btn"
+    [style.top.%]="btnTop"
+    [style.left.%]="btnLeft"
+    (mouseenter)="teleportButton()"
+    (click)="goHome()"
+  >
+    TAKE ME HOME
+  </button>
+</div>
