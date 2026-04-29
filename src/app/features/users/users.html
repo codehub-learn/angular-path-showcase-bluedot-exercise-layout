@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <th>Fullname</th>
+        <th>Email</th>
+        <th></th>
+    </tr>
+    @for(user of users; track user) {
+    <tr>
+        <td>{{user.fullname}}</td>
+        <td>{{user.email}}</td>
+        <td><button (click)="viewDetails(user.id)">View details</button></td>
+    </tr>
+    }
+</table>

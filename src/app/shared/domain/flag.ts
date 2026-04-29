@@ -1,5 +1,6 @@
-export interface Flag {
-    id: number
+import { BaseModel } from "./base-model";
+
+export interface Flag extends BaseModel {
     url: string,
     alt: string
 }
