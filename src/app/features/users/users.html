@@ -1,4 +1,5 @@
 <table>
+    @if(users && users.length > 0) {
     <tr>
         <th>Fullname</th>
         <th>Email</th>
@@ -10,5 +11,8 @@
         <td>{{user.email}}</td>
         <td><button (click)="viewDetails(user.id)">View details</button></td>
     </tr>
+    }
+    } @else {
+    <p>No users found.</p>
     }
 </table>

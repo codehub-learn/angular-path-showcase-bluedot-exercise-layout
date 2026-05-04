@@ -7,6 +7,10 @@ import { LandingPage } from './features/landing-page/landing-page';
 import { Error403 } from './shared/components/error403/error403';
 import { Users } from './features/users/users';
 import { UserDetails } from './features/user-details/user-details';
+import { GreeceMap } from './features/greece-map/greece-map';
+import { Thessaloniki } from './features/greece-map/components/thessaloniki/thessaloniki';
+import { Patra } from './features/greece-map/components/patra/patra';
+import { Athens } from './features/greece-map/components/athens/athens';
 
 export const routes: Routes = [
     {
@@ -37,6 +41,15 @@ export const routes: Routes = [
     {
         path: "background-color-changer",
         component: BackgroundColorChanger
+    },
+    {
+       path: "greece-map", 
+       component: GreeceMap,
+       children: [
+        {path: 'athens', component: Athens},
+        {path: 'thessaloniki', component: Thessaloniki},
+        {path: 'patra', component: Patra},
+       ]
     },
     {
         path: "403",
