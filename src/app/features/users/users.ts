@@ -66,6 +66,7 @@ export class Users {
   }
 
   viewDetails(id: number) {
-    this.router.navigate(['/users', id]); // localhost:4200/users/1 
+    // perform logic
+    this.router.navigate(['/users', id]); // localhost:4200/users/1
   }
 }
