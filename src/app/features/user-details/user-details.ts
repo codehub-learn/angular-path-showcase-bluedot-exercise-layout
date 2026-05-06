@@ -12,7 +12,9 @@ import { UserService } from '../../shared/services/user-service';
 export class UserDetails {
   userDetailedInfo?: UserDetailedInfo;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private userService: UserService) {
+  constructor(private activatedRoute: ActivatedRoute, 
+    private router: Router, 
+    private userService: UserService) {
     let userId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
 
     if(Number.isNaN(userId)){

@@ -14,6 +14,7 @@ export class Navbar {
     { path: 'lifecycle', title: 'Lifecycle' },
     { path: 'country-viewer', title: 'Country Viewer' },
     { path: 'background-color-changer', title: 'Background Color Changer' },
-    { path: 'greece-map', title: 'Greece Map' }
+    { path: 'greece-map', title: 'Greece Map' },
+    { path: 'cross-component-communication', title: 'Cross Component Communication' }
   ];
 }

@@ -11,6 +11,7 @@ import { GreeceMap } from './features/greece-map/greece-map';
 import { Thessaloniki } from './features/greece-map/components/thessaloniki/thessaloniki';
 import { Patra } from './features/greece-map/components/patra/patra';
 import { Athens } from './features/greece-map/components/athens/athens';
+import { CrossComponentCommunication } from './features/cross-component-communication/cross-component-communication';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,10 @@ export const routes: Routes = [
     {
         path: "background-color-changer",
         component: BackgroundColorChanger
+    },   
+     {
+        path: "cross-component-communication",
+        component: CrossComponentCommunication
     },
     {
        path: "greece-map", 
