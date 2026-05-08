@@ -12,6 +12,7 @@ import { Thessaloniki } from './features/greece-map/components/thessaloniki/thes
 import { Patra } from './features/greece-map/components/patra/patra';
 import { Athens } from './features/greece-map/components/athens/athens';
 import { CrossComponentCommunication } from './features/cross-component-communication/cross-component-communication';
+import { Customers } from './features/customers/customers';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,10 @@ export const routes: Routes = [
      {
         path: "cross-component-communication",
         component: CrossComponentCommunication
+    },
+    {
+        path: "customers",
+        component: Customers
     },
     {
        path: "greece-map", 

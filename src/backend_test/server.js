@@ -1,0 +1,169 @@
+// server.js
+// Run with: node server.js
+// No dependencies, no database, in-memory only
+
+const http = require("http");
+const { URL } = require("url");
+
+let bugs = [];
+let nextId = 1;
+
+function send(res, status, data) {
+  res.writeHead(status, { "Content-Type": "application/json" });
+  res.end(JSON.stringify(data));
+}
+
+function parseBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+
+    req.on("data", chunk => {
+      body += chunk;
+    });
+
+    req.on("end", () => {
+      try {
+        const data = body ? JSON.parse(body) : {};
+
+        const priorities = [1, 2, 3];
+        const reporters = ["QA", "PO", "DEV"];
+        const statuses = ["Ready for testing", "Done", "Rejected"];
+
+        const {
+          title,
+          description,
+          priority,
+          reporter,
+          status,
+          comments
+        } = data;
+        
+        // Required fields
+        if (!title || priority == null || !reporter) {
+          return reject("Missing title, priority or reporter");
+        }
+
+        if (!priorities.includes(priority)) {
+          return reject("Invalid priority");
+        }
+
+        if (!reporters.includes(reporter)) {
+          return reject("Invalid reporter");
+        }
+
+        // Dynamic status validation
+        if (reporter === "QA") {
+          if (!status) {
+            return reject("Status is required when reporter is QA");
+          }
+          if (!statuses.includes(status)) {
+            return reject("Invalid status");
+          }
+        }
+
+        if (status && !statuses.includes(status)) {
+          return reject("Invalid status");
+        }
+
+        // Comments validation
+        if (comments !== undefined) {
+          if (!Array.isArray(comments)) {
+            return reject("Comments must be an array");
+          }
+          if (!comments.every(c => typeof c === "string")) {
+            return reject("Each comment must be a string");
+          }
+        }
+
+        // Sanitize output (server-controlled fields excluded)
+        resolve({
+          title,
+          description,
+          priority,
+          reporter,
+          status,
+          comments
+        });
+
+      } catch {
+        reject("Invalid JSON");
+      }
+    });
+  });
+}
+
+const server = http.createServer(async (req, res) => {
+  // ---- CORS HEADERS ----
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // handle preflight request
+  if (req.method === "OPTIONS") {
+    res.writeHead(204);
+    return res.end();
+  }
+
+  const url = new URL(req.url, `http://${req.headers.host}`);
+  const path = url.pathname;
+  const method = req.method;
+
+  // GET /bugs
+  if (method === "GET" && path === "/bugs") {
+    return send(res, 200, bugs);
+  }
+
+  // GET /bugs/:id
+  if (method === "GET" && path.startsWith("/bugs/")) {
+    const id = Number(path.split("/")[2]);
+    const bug = bugs.find(b => b.id === id);
+    return bug
+      ? send(res, 200, bug)
+      : send(res, 404, { message: "Bug not found" });
+  }
+
+  // POST /bugs
+  if (method === "POST" && path === "/bugs") {
+    try {
+      const body = await parseBody(req);
+      const bug = { id: nextId++, dateUpdated: new Date(), ...body };
+      bugs.push(bug);
+      return send(res, 201, bug);
+    } catch(error) {
+      return send(res, 400, { message: error });
+    }
+  }
+
+  // PUT /bugs/:id
+  if (method === "PUT" && path.startsWith("/bugs/")) {
+    try {
+      const id = Number(path.split("/")[2]);
+      const body = await parseBody(req);
+      const index = bugs.findIndex(b => b.id === id);
+      if (index === -1) {
+        return send(res, 404, { message: "Bug not found" });
+      }
+      bugs[index] = { id, dateUpdated: new Date(), ...body };
+      return send(res, 200, bugs[index]);
+    } catch(error) {
+      return send(res, 400, { message: error });
+    }
+  }
+
+  // DELETE /bugs/:id
+  if (method === "DELETE" && path.startsWith("/bugs/")) {
+    const id = Number(path.split("/")[2]);
+    const index = bugs.findIndex(b => b.id === id);
+    if (index === -1) {
+      return send(res, 404, { message: "Bug not found" });
+    }
+    bugs.splice(index, 1);
+    return send(res, 204, {});
+  }
+
+  send(res, 404, { message: "Endpoint not found" });
+});
+
+server.listen(3000, () => {
+  console.log("Bug API running on http://localhost:3000");
+});

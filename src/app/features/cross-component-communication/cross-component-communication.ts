@@ -10,5 +10,9 @@ import { Observer2 } from './components/observer-2/observer-2';
   styleUrl: './cross-component-communication.scss',
 })
 export class CrossComponentCommunication {
+  areComponentsVisible = true;
 
+  toggleComponentVisibility() {
+    this.areComponentsVisible = !this.areComponentsVisible
+  }
 }

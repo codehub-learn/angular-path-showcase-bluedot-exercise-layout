@@ -6,7 +6,7 @@ import { Parcel } from '../domain/transfer/parcel';
   providedIn: 'root',
 })
 export class PublisherService {
-  private publisher = new ReplaySubject<Parcel>(); // check BehaviourSubject as well
+  private publisher = new BehaviorSubject<Parcel>({type: "init", from: this.constructor.name}); // check BehaviourSubject as well
 
   // take data
   publish(parcel: Parcel) {

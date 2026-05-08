@@ -1,4 +1,9 @@
-<div class="custom-container">
+<div>
+    <button (click)="toggleComponentVisibility()">Toggle component visibility</button>
+</div>
+<div>
+    @if(areComponentsVisible){
+        <div class="custom-container">
     <app-observable></app-observable>
 </div>
 <div class="custom-container">
@@ -8,4 +13,5 @@
     <app-observer-2></app-observer-2>
 </div>
 
-
+    }
+</div>
