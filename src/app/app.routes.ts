@@ -12,12 +12,12 @@ import { Thessaloniki } from './features/greece-map/components/thessaloniki/thes
 import { Patra } from './features/greece-map/components/patra/patra';
 import { Athens } from './features/greece-map/components/athens/athens';
 import { CrossComponentCommunication } from './features/cross-component-communication/cross-component-communication';
-import { Customers } from './features/customers/customers';
+import {Bugs} from './features/bugs/bugs.component';
 
 export const routes: Routes = [
     {
         path: "",
-        redirectTo: "landing-page", 
+        redirectTo: "landing-page",
         pathMatch: 'full'
     },
     {
@@ -43,17 +43,17 @@ export const routes: Routes = [
     {
         path: "background-color-changer",
         component: BackgroundColorChanger
-    },   
+    },
      {
         path: "cross-component-communication",
         component: CrossComponentCommunication
     },
     {
-        path: "customers",
-        component: Customers
+        path: "bugs",
+        component: Bugs
     },
     {
-       path: "greece-map", 
+       path: "greece-map",
        component: GreeceMap,
        children: [
         {path: 'athens', component: Athens},

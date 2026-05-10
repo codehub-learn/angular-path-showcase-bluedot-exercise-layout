@@ -4,25 +4,25 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class CustomerService {
+export class BugsService {
   baseUrl = "https://restcountries.com/v3.1/all?fields=name,capital,population";
 
   constructor(private httpClient: HttpClient){
   }
 
-  getCustomers() {
+  getBugs() {
     return this.httpClient.get(this.baseUrl)
   }
 
-  postCustomer(customer: any){ // any should be replaced with domain Customer
-    return this.httpClient.post(this.baseUrl, customer);
+  postBugs(bug: any){ // any should be replaced with domain Customer
+    return this.httpClient.post(this.baseUrl, bug);
   }
 
-  putCustomer(customer: any, id: number){
-    return this.httpClient.put(this.baseUrl + id, customer)
+  putBugs(bug: any, id: number){
+    return this.httpClient.put(this.baseUrl + id, bug)
   }
 
-  deleteCustomer(id: number){
+  deleteBugs(id: number){
     return this.httpClient.delete(this.baseUrl + id)
   }
 }
