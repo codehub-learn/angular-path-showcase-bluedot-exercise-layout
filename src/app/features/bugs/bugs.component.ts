@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { BugsService } from '../../shared/services/bugs.service';
+import {Component} from '@angular/core';
+import {BugsService} from '../../shared/services/bugs.service';
 
 @Component({
   selector: 'app-bugs',
@@ -10,10 +10,10 @@ import { BugsService } from '../../shared/services/bugs.service';
 export class Bugs {
   bugs: any[] = []
 
-  constructor(private bugsService: BugsService){
-    this.bugsService.getBugs().subscribe((customers: any) => {
-      console.log(customers);
-      this.bugs = customers;
+  constructor(private bugsService: BugsService) {
+    this.bugsService.getBugs().subscribe((bugs: any) => {
+      console.log(bugs);
+      this.bugs = bugs;
     });
   }
 }

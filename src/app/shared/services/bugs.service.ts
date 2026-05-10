@@ -5,7 +5,21 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class BugsService {
-  baseUrl = "https://restcountries.com/v3.1/all?fields=name,capital,population";
+  baseUrl = "http://localhost:3000/bugs";
+
+  /*
+  {
+    "title": "Login button is unresponsive on mobile",
+    "description": "When viewing the site on screens smaller than 400px, the login button gets covered by the footer.",
+    "priority": 1,
+    "reporter": "QA",
+    "status": "Ready for testing",
+    "comments": [
+      "Tested on an iPhone 13.",
+      "Can reproduce 100% of the time."
+    ]
+  }
+  * */
 
   constructor(private httpClient: HttpClient){
   }
