@@ -8,3 +8,7 @@
 
 
 <button (click)="postBug()">Post Bug</button>
+
+<input type="text" placeholder="Enter bug title" [(ngModel)]="newBugTitle" (ngModelChange)="onChange()"/>
+
+{{newBugTitle}}
