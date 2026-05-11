@@ -42,7 +42,7 @@ export class CountryDetails implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes); 
     if(changes["selectedFlag"] && !changes["selectedFlag"].firstChange) {
-      this.getCountryById(this.selectedFlag!.id);
+      this.getCountryById(this.selectedFlag!.id!);
     }
   }
 }

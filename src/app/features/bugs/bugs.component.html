@@ -1,1 +1,10 @@
-<p>bugs works!</p>
+@if(errorMessageOnGetCall) {
+    <p>Something went wrong: {{errorMessageOnGetCall}}</p>
+} @else if(dataLoaded) {
+    <p>bugs fetched!</p>
+} @else {
+    <p>Loading...</p>
+}
+
+
+<button (click)="postBug()">Post Bug</button>
