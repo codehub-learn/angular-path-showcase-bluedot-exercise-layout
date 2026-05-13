@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User } from '../domain/user';
 import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root', // singleton
 })
 export class UserService {
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     console.log("hello from user service");
   }
 
@@ -138,5 +139,14 @@ export class UserService {
       }
     ];
     return fullUsers.find(user => user.id === id);
+  }
+
+  verifyUserExistsByEmail(email: string){
+    // /admin/analytics -> headers -> reporting = appointmentsAndUsers, repoting = numberOfOnlineUsers
+    let headers = new HttpHeaders().set("reporting", "inactiveusers");
+    this.httpClient.get<boolean>('http://localhost:5228/users', 
+      {params: {email: email, max_price: 100},
+      headers: headers
+    })
   }
 }
