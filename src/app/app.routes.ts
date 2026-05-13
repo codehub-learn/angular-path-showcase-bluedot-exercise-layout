@@ -13,6 +13,7 @@ import { Patra } from './features/greece-map/components/patra/patra';
 import { Athens } from './features/greece-map/components/athens/athens';
 import { CrossComponentCommunication } from './features/cross-component-communication/cross-component-communication';
 import {Bugs} from './features/bugs/bugs.component';
+import { UserRegistration } from './features/user-registration/user-registration';
 
 export const routes: Routes = [
     {
@@ -31,6 +32,10 @@ export const routes: Routes = [
     {
         path: "users/:id",
         component: UserDetails
+    },
+    {
+        path: "user-registration",
+        component: UserRegistration
     },
     {
         path: "lifecycle",

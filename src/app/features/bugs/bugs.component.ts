@@ -13,7 +13,7 @@ export class Bugs {
   bugs: Bug[] = []
   errorMessageOnGetCall?: string;
   dataLoaded: boolean = false;
-  newBugTitle: string = "";
+
 
   constructor(private bugsService: BugsService) {
     // this.bugsService.getBugs().subscribe((bugs: Bug[]) => {
@@ -54,9 +54,5 @@ export class Bugs {
     this.bugsService.postBugs(newBug).subscribe((createdBug: Bug) => {
       console.log(createdBug);
     });
-  }
-
-  onChange() {
-    console.log("hello");
   }
 }

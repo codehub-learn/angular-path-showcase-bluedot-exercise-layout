@@ -11,6 +11,7 @@ export class Navbar {
   navRoutes = [
     { path: 'landing-page', title: 'Home' },
     { path: 'users', title: 'Users' },
+    { path: 'user-registration', title: 'User Registration' },
     { path: 'lifecycle', title: 'Lifecycle' },
     { path: 'country-viewer', title: 'Country Viewer' },
     { path: 'background-color-changer', title: 'Background Color Changer' },
