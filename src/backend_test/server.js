@@ -112,8 +112,8 @@ const server = http.createServer(async (req, res) => {
   // ---- CORS HEADERS ----
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  
   // handle preflight request
   if (req.method === "OPTIONS") {
     res.writeHead(204);
@@ -145,7 +145,7 @@ const server = http.createServer(async (req, res) => {
       // Validate credentials
       if (body.username === "user" && body.password === "pass123") {
         // Simple mock JWT format for showcase (Header.Payload.Signature)
-        const mockJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.showcase_mock_signature";
+        const mockJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30";
         console.log("Completed request:", logEntry);
         return send(res, 200, { token: mockJwt });
       } else {
