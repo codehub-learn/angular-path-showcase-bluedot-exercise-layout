@@ -8,6 +8,20 @@ const { URL } = require("url");
 let bugs = [];
 let nextId = 1;
 
+// Simple in-memory request tracker
+function createRequestLog(req, url) {
+  return {
+    timestamp: new Date().toISOString(),
+    method: req.method,
+    path: url.pathname,
+    fullUrl: url.toString(),
+    headers: req.headers,
+    query: Object.fromEntries(url.searchParams.entries()),
+    body: null,
+    params: null
+  };
+}
+
 function send(res, status, data) {
   res.writeHead(status, { "Content-Type": "application/json" });
   res.end(JSON.stringify(data));
@@ -23,6 +37,8 @@ function parseBody(req) {
 
     req.on("end", () => {
       try {
+        req.rawBody = body; // store raw body for logging
+
         const data = body ? JSON.parse(body) : {};
 
         const priorities = [1, 2, 3];
@@ -37,7 +53,7 @@ function parseBody(req) {
           status,
           comments
         } = data;
-        
+
         // Required fields
         if (!title || priority == null || !reporter) {
           return reject("Missing title, priority or reporter");
@@ -75,7 +91,6 @@ function parseBody(req) {
           }
         }
 
-        // Sanitize output (server-controlled fields excluded)
         resolve({
           title,
           description,
@@ -108,14 +123,21 @@ const server = http.createServer(async (req, res) => {
   const path = url.pathname;
   const method = req.method;
 
+  // ---- REQUEST TRACKER ENTRY ----
+  const logEntry = createRequestLog(req, url);
+  console.log("Incoming request:", logEntry);
+
   // GET /bugs
   if (method === "GET" && path === "/bugs") {
+    logEntry.params = {};
     return send(res, 200, bugs);
   }
 
   // GET /bugs/:id
   if (method === "GET" && path.startsWith("/bugs/")) {
     const id = Number(path.split("/")[2]);
+    logEntry.params = { id };
+
     const bug = bugs.find(b => b.id === id);
     return bug
       ? send(res, 200, bug)
@@ -126,10 +148,18 @@ const server = http.createServer(async (req, res) => {
   if (method === "POST" && path === "/bugs") {
     try {
       const body = await parseBody(req);
+      logEntry.body = body;
+
       const bug = { id: nextId++, dateUpdated: new Date(), ...body };
       bugs.push(bug);
+
+      console.log("Completed request:", logEntry);
       return send(res, 201, bug);
-    } catch(error) {
+
+    } catch (error) {
+      logEntry.body = req.rawBody;
+      console.log("Failed request:", logEntry);
+
       return send(res, 400, { message: error });
     }
   }
@@ -138,14 +168,25 @@ const server = http.createServer(async (req, res) => {
   if (method === "PUT" && path.startsWith("/bugs/")) {
     try {
       const id = Number(path.split("/")[2]);
+      logEntry.params = { id };
+
       const body = await parseBody(req);
+      logEntry.body = body;
+
       const index = bugs.findIndex(b => b.id === id);
       if (index === -1) {
         return send(res, 404, { message: "Bug not found" });
       }
+
       bugs[index] = { id, dateUpdated: new Date(), ...body };
+
+      console.log("Completed request:", logEntry);
       return send(res, 200, bugs[index]);
-    } catch(error) {
+
+    } catch (error) {
+      logEntry.body = req.rawBody;
+      console.log("Failed request:", logEntry);
+
       return send(res, 400, { message: error });
     }
   }
@@ -153,14 +194,21 @@ const server = http.createServer(async (req, res) => {
   // DELETE /bugs/:id
   if (method === "DELETE" && path.startsWith("/bugs/")) {
     const id = Number(path.split("/")[2]);
+    logEntry.params = { id };
+
     const index = bugs.findIndex(b => b.id === id);
     if (index === -1) {
+      console.log("Failed request:", logEntry);
       return send(res, 404, { message: "Bug not found" });
     }
+
     bugs.splice(index, 1);
+
+    console.log("Completed request:", logEntry);
     return send(res, 204, {});
   }
 
+  console.log("Unknown endpoint request:", logEntry);
   send(res, 404, { message: "Endpoint not found" });
 });
 
