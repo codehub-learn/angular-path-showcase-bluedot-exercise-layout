@@ -27,6 +27,7 @@ function send(res, status, data) {
   res.end(JSON.stringify(data));
 }
 
+// Note: This parseBody validates specifically for Bug payloads
 function parseBody(req) {
   return new Promise((resolve, reject) => {
     let body = "";
@@ -126,6 +127,36 @@ const server = http.createServer(async (req, res) => {
   // ---- REQUEST TRACKER ENTRY ----
   const logEntry = createRequestLog(req, url);
   console.log("Incoming request:", logEntry);
+
+  // POST /login
+  if (method === "POST" && path === "/login") {
+    try {
+      // Read body inline to avoid the Bug validation in parseBody
+      const bodyStr = await new Promise((resolve, reject) => {
+        let body = "";
+        req.on("data", chunk => body += chunk);
+        req.on("end", () => resolve(body));
+        req.on("error", reject);
+      });
+
+      const body = JSON.parse(bodyStr);
+      logEntry.body = body;
+
+      // Validate credentials
+      if (body.username === "user" && body.password === "pass123") {
+        // Simple mock JWT format for showcase (Header.Payload.Signature)
+        const mockJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIifQ.showcase_mock_signature";
+        console.log("Completed request:", logEntry);
+        return send(res, 200, { token: mockJwt });
+      } else {
+        console.log("Failed request:", logEntry);
+        return send(res, 401, { message: "Invalid credentials" });
+      }
+    } catch (error) {
+      console.log("Failed request:", logEntry);
+      return send(res, 400, { message: "Invalid JSON" });
+    }
+  }
 
   // GET /bugs
   if (method === "GET" && path === "/bugs") {
